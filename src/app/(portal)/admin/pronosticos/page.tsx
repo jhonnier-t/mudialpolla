@@ -4,6 +4,7 @@ import { pointsFor } from "@/lib/scoring";
 import { MATCH_STATUS, PHASE_LABELS, ROLES } from "@/lib/constants";
 import { deleteUserPrediction } from "@/lib/actions/admin";
 import { AdminPredictionForm } from "@/components/admin/AdminPredictionForm";
+import { MatchPicker } from "@/components/admin/MatchPicker";
 import { TeamFlag } from "@/components/TeamFlag";
 import { ConfirmButton } from "@/components/ConfirmButton";
 
@@ -36,29 +37,26 @@ export default async function AdminPronosticosPage({ searchParams }: Props) {
           antes de poner en marcha la polla). Toda corrección debe informarse al grupo
           (ver LINEAMIENTOS).
         </p>
-        <form method="GET" className="flex flex-wrap items-end gap-3">
-          <div className="min-w-64 flex-1">
-            <label htmlFor="match" className="mb-1 block text-sm font-medium">
-              Partido
-            </label>
-            <select id="match" name="match" className="input" defaultValue={selected?.id ?? ""}>
-              <option value="" disabled>
-                Selecciona un partido…
-              </option>
-              {matches.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.status === MATCH_STATUS.FINISHED
-                    ? `[${m.scoreA}-${m.scoreB}] `
-                    : ""}
-                  {m.teamA.name} vs {m.teamB.name} — {fmtKickoff(m.kickoff)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button type="submit" className="btn-secondary">
-            Ver participantes
-          </button>
-        </form>
+        <div className="max-w-xl">
+          <label htmlFor="match" className="mb-1 block text-sm font-medium">
+            Partido
+          </label>
+          <MatchPicker
+            value={selected?.id}
+            upcoming={matches
+              .filter((m) => m.status !== MATCH_STATUS.FINISHED)
+              .map((m) => ({
+                id: m.id,
+                label: `${m.teamA.name} vs ${m.teamB.name} — ${fmtKickoff(m.kickoff)}`,
+              }))}
+            finished={matches
+              .filter((m) => m.status === MATCH_STATUS.FINISHED)
+              .map((m) => ({
+                id: m.id,
+                label: `[${m.scoreA}-${m.scoreB}] ${m.teamA.name} vs ${m.teamB.name} — ${fmtKickoff(m.kickoff)}`,
+              }))}
+          />
+        </div>
       </section>
 
       {selected && (
