@@ -6,6 +6,7 @@ import { ROLES } from "@/lib/constants";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ToastProvider } from "@/components/Toast";
 import { Footer } from "@/components/Footer";
+import { PredictionReminder } from "@/components/PredictionReminder";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -54,7 +55,10 @@ export default async function PortalLayout({ children }: { children: React.React
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+        <PredictionReminder />
+        {children}
+      </main>
       <Footer />
     </div>
     </ToastProvider>
