@@ -4,6 +4,7 @@ import { ROLES } from "@/lib/constants";
 import { toggleUserActive } from "@/lib/actions/admin";
 import { UserForm } from "@/components/admin/UserForm";
 import { ResetPasswordForm } from "@/components/admin/ResetPasswordForm";
+import { ConfirmButton } from "@/components/ConfirmButton";
 
 export default async function AdminUsuariosPage() {
   const session = await requireSession();
@@ -63,12 +64,13 @@ export default async function AdminUsuariosPage() {
                     {u.id !== session.userId && (
                       <form action={toggleUserActive}>
                         <input type="hidden" name="id" value={u.id} />
-                        <button
-                          type="submit"
-                          className={u.active ? "btn-danger px-3 py-2" : "btn-secondary px-3 py-2"}
-                        >
-                          {u.active ? "Desactivar" : "Activar"}
-                        </button>
+                        {u.active ? (
+                          <ConfirmButton confirmLabel="¿Desactivar?">Desactivar</ConfirmButton>
+                        ) : (
+                          <button type="submit" className="btn-secondary px-3 py-2">
+                            Activar
+                          </button>
+                        )}
                       </form>
                     )}
                   </div>

@@ -5,6 +5,7 @@ import { MATCH_STATUS, PHASE_LABELS, ROLES } from "@/lib/constants";
 import { deleteUserPrediction } from "@/lib/actions/admin";
 import { AdminPredictionForm } from "@/components/admin/AdminPredictionForm";
 import { TeamFlag } from "@/components/TeamFlag";
+import { ConfirmButton } from "@/components/ConfirmButton";
 
 type Props = { searchParams: Promise<{ match?: string }> };
 
@@ -147,9 +148,9 @@ export default async function AdminPronosticosPage({ searchParams }: Props) {
                           <form action={deleteUserPrediction}>
                             <input type="hidden" name="userId" value={u.id} />
                             <input type="hidden" name="matchId" value={selected.id} />
-                            <button type="submit" className="btn-danger px-3 py-2">
+                            <ConfirmButton confirmLabel="¿Quitar pronóstico?">
                               Quitar
-                            </button>
+                            </ConfirmButton>
                           </form>
                         )}
                       </div>

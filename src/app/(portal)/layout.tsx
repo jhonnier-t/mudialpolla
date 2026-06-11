@@ -4,12 +4,14 @@ import { getSession } from "@/lib/auth";
 import { logout } from "@/lib/actions/auth";
 import { ROLES } from "@/lib/constants";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ToastProvider } from "@/components/Toast";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   if (!session) redirect("/login");
 
   return (
+    <ToastProvider>
     <div className="min-h-screen">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-4 px-4 py-3">
@@ -50,5 +52,6 @@ export default async function PortalLayout({ children }: { children: React.React
       </header>
       <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
     </div>
+    </ToastProvider>
   );
 }

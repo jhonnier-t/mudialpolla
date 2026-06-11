@@ -5,6 +5,7 @@ import { deleteMatch, reopenMatch } from "@/lib/actions/admin";
 import { MatchForm } from "@/components/admin/MatchForm";
 import { ResultForm } from "@/components/admin/ResultForm";
 import { TeamFlag } from "@/components/TeamFlag";
+import { ConfirmButton } from "@/components/ConfirmButton";
 
 export default async function AdminPartidosPage() {
   const [teams, matches] = await Promise.all([
@@ -69,9 +70,7 @@ export default async function AdminPartidosPage() {
                   <ResultForm matchId={m.id} />
                   <form action={deleteMatch}>
                     <input type="hidden" name="id" value={m.id} />
-                    <button type="submit" className="btn-danger px-3 py-2">
-                      Eliminar
-                    </button>
+                    <ConfirmButton confirmLabel="¿Eliminar partido?">Eliminar</ConfirmButton>
                   </form>
                 </div>
               </div>
@@ -108,9 +107,12 @@ export default async function AdminPartidosPage() {
                   <ResultForm matchId={m.id} initialA={m.scoreA} initialB={m.scoreB} />
                   <form action={reopenMatch}>
                     <input type="hidden" name="id" value={m.id} />
-                    <button type="submit" className="btn-secondary px-3 py-2">
+                    <ConfirmButton
+                      confirmLabel="¿Quitar resultado?"
+                      className="btn-secondary px-3 py-2"
+                    >
                       Reabrir
-                    </button>
+                    </ConfirmButton>
                   </form>
                 </div>
               </div>

@@ -1,10 +1,17 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { resetPassword } from "@/lib/actions/admin";
+import { useToast } from "@/components/Toast";
 
 export function ResetPasswordForm({ userId }: { userId: string }) {
   const [state, formAction, pending] = useActionState(resetPassword, null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state?.ok) toast("success", "Contraseña actualizada");
+    if (state?.error) toast("error", state.error);
+  }, [state, toast]);
 
   return (
     <form action={formAction} className="flex items-center gap-2">
@@ -20,8 +27,6 @@ export function ResetPasswordForm({ userId }: { userId: string }) {
       <button type="submit" className="btn-secondary px-3 py-2" disabled={pending}>
         {pending ? "…" : "Cambiar"}
       </button>
-      {state?.ok && <span className="text-xs text-emerald-600">✓</span>}
-      {state?.error && <span className="text-xs text-red-600">{state.error}</span>}
     </form>
   );
 }

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { deleteTeam, updateTeam } from "@/lib/actions/admin";
 import { TeamForm } from "@/components/admin/TeamForm";
 import { TeamFlag } from "@/components/TeamFlag";
+import { ConfirmButton } from "@/components/ConfirmButton";
 
 export default async function AdminEquiposPage() {
   const teams = await prisma.team.findMany({
@@ -60,9 +61,12 @@ export default async function AdminEquiposPage() {
                     {matchCount === 0 ? (
                       <form action={deleteTeam} className="inline">
                         <input type="hidden" name="id" value={t.id} />
-                        <button type="submit" className="btn-danger px-3 py-1.5">
+                        <ConfirmButton
+                          confirmLabel="¿Eliminar equipo?"
+                          className="btn-danger px-3 py-1.5"
+                        >
                           Eliminar
-                        </button>
+                        </ConfirmButton>
                       </form>
                     ) : (
                       <span className="text-xs text-slate-400">Con partidos asociados</span>
