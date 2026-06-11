@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtKickoff } from "@/lib/format";
 import { isPredictionOpen, pointsFor } from "@/lib/scoring";
 import { MATCH_STATUS, PHASE_LABELS, PREDICTION_LOCK_MINUTES } from "@/lib/constants";
 import { PredictionForm } from "@/components/PredictionForm";
 
 export default async function PrediccionesPage() {
-  const session = (await getSession())!;
+  const session = await requireSession();
   const now = new Date();
 
   const matches = await prisma.match.findMany({

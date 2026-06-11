@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { ROLES } from "@/lib/constants";
 import { toggleUserActive } from "@/lib/actions/admin";
 import { UserForm } from "@/components/admin/UserForm";
 import { ResetPasswordForm } from "@/components/admin/ResetPasswordForm";
 
 export default async function AdminUsuariosPage() {
-  const session = (await getSession())!;
+  const session = await requireSession();
   const users = await prisma.user.findMany({
     include: { _count: { select: { predictions: true } } },
     orderBy: [{ role: "asc" }, { name: "asc" }],

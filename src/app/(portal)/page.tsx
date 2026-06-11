@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtKickoff } from "@/lib/format";
 import { buildLeaderboard } from "@/lib/scoring";
 import { MATCH_STATUS, PHASE_LABELS } from "@/lib/constants";
 
 export default async function DashboardPage() {
-  const session = (await getSession())!;
+  const session = await requireSession();
 
   const [upcoming, finishedPreds, myPredictions] = await Promise.all([
     prisma.match.findMany({

@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { cache } from "react";
 
 const COOKIE_NAME = "polla_session";
@@ -47,6 +48,17 @@ export const getSession = cache(async (): Promise<Session | null> => {
     return null;
   }
 });
+
+/**
+ * Sesión obligatoria para páginas protegidas. El layout también redirige,
+ * pero layout y página se renderizan EN PARALELO en App Router, así que
+ * cada página debe validar por su cuenta (nunca usar getSession()! con `!`).
+ */
+export async function requireSession(): Promise<Session> {
+  const session = await getSession();
+  if (!session) redirect("/login");
+  return session;
+}
 
 export async function destroySession() {
   const store = await cookies();

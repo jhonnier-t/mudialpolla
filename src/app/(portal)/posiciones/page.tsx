@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { buildLeaderboard } from "@/lib/scoring";
 import { MATCH_STATUS } from "@/lib/constants";
 
 export default async function PosicionesPage() {
-  const session = (await getSession())!;
+  const session = await requireSession();
 
   const preds = await prisma.prediction.findMany({
     where: { match: { status: MATCH_STATUS.FINISHED } },
