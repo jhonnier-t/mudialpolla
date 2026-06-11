@@ -29,6 +29,7 @@ export const FLAG_BY_CODE: Record<string, string> = {
   NED: "🇳🇱",
   BEL: "🇧🇪",
   CRO: "🇭🇷",
+  BIH: "🇧🇦",
   SUI: "🇨🇭",
   AUT: "🇦🇹",
   NOR: "🇳🇴",
