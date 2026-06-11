@@ -5,6 +5,7 @@ import { logout } from "@/lib/actions/auth";
 import { ROLES } from "@/lib/constants";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ToastProvider } from "@/components/Toast";
+import { Footer } from "@/components/Footer";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -12,8 +13,8 @@ export default async function PortalLayout({ children }: { children: React.React
 
   return (
     <ToastProvider>
-    <div className="min-h-screen">
-      <header className="border-b border-slate-200 bg-white">
+    <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-4 px-4 py-3">
           <Link href="/" className="flex items-center gap-2 text-lg font-bold">
             ⚽ <span>Polla Mundialista</span>
@@ -50,7 +51,8 @@ export default async function PortalLayout({ children }: { children: React.React
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
+      <Footer />
     </div>
     </ToastProvider>
   );

@@ -21,6 +21,15 @@ export default async function LoginPage() {
         <div className="card">
           <LoginForm />
         </div>
+        <p className="mt-6 text-center text-xs text-slate-400">
+          Desarrollado por{" "}
+          <a
+            href="mailto:jhonnier98t@gmail.com"
+            className="font-medium text-slate-500 hover:text-emerald-700"
+          >
+            Jhonnier Tangarife
+          </a>
+        </p>
       </div>
     </main>
   );
