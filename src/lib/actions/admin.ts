@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { MATCH_STATUS, PHASES, ROLES } from "@/lib/constants";
+import { FLAG_BY_CODE } from "@/lib/flags";
 
 export type AdminState = { error?: string; ok?: boolean } | null;
 
@@ -31,7 +32,8 @@ export async function createTeam(_prev: AdminState, formData: FormData): Promise
   await requireAdmin();
   const name = String(formData.get("name") ?? "").trim();
   const code = String(formData.get("code") ?? "").trim().toUpperCase();
-  const flag = String(formData.get("flag") ?? "").trim();
+  // Si no se indica bandera, se autocompleta por código FIFA
+  const flag = String(formData.get("flag") ?? "").trim() || FLAG_BY_CODE[code] || "";
   const groupName = String(formData.get("groupName") ?? "").trim().toUpperCase() || null;
 
   if (!name || !/^[A-Z]{3}$/.test(code)) {
@@ -45,6 +47,21 @@ export async function createTeam(_prev: AdminState, formData: FormData): Promise
   }
   revalidateAll();
   return { ok: true };
+}
+
+/** Actualiza bandera y grupo de un equipo existente. */
+export async function updateTeam(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const flag = String(formData.get("flag") ?? "").trim();
+  const groupName = String(formData.get("groupName") ?? "").trim().toUpperCase() || null;
+  const team = await prisma.team.findUnique({ where: { id } });
+  if (!team) return;
+  await prisma.team.update({
+    where: { id },
+    data: { flag: flag || FLAG_BY_CODE[team.code] || team.flag, groupName },
+  });
+  revalidateAll();
 }
 
 export async function deleteTeam(formData: FormData) {

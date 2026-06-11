@@ -3,12 +3,15 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isPredictionOpen } from "@/lib/scoring";
+import { PREDICTION_LOCK_MINUTES } from "@/lib/constants";
 
 export type PredictionState = { error?: string; ok?: boolean } | null;
 
 /**
  * Guarda o actualiza el pronóstico del usuario para un partido.
- * Regla clave (LINEAMIENTOS.md): se bloquea al inicio del partido.
+ * Regla clave (LINEAMIENTOS.md): se bloquea PREDICTION_LOCK_MINUTES minutos
+ * antes del inicio del partido.
  */
 export async function savePrediction(
   _prev: PredictionState,
@@ -27,8 +30,10 @@ export async function savePrediction(
 
   const match = await prisma.match.findUnique({ where: { id: matchId } });
   if (!match) return { error: "El partido no existe." };
-  if (match.status === "FINISHED" || match.kickoff <= new Date()) {
-    return { error: "El partido ya inició: pronóstico cerrado." };
+  if (match.status === "FINISHED" || !isPredictionOpen(match.kickoff)) {
+    return {
+      error: `Pronóstico cerrado: se bloquea ${PREDICTION_LOCK_MINUTES} minutos antes del inicio.`,
+    };
   }
 
   await prisma.prediction.upsert({

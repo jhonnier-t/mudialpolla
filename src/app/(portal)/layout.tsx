@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { logout } from "@/lib/actions/auth";
 import { ROLES } from "@/lib/constants";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -36,6 +37,7 @@ export default async function PortalLayout({ children }: { children: React.React
           </nav>
           <div className="flex items-center gap-3 text-sm">
             <span className="hidden text-slate-500 sm:inline">Hola, {session.name}</span>
+            <ThemeToggle />
             <form action={logout}>
               <button type="submit" className="btn-secondary px-3 py-1.5">
                 Salir

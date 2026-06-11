@@ -30,6 +30,9 @@ export const PHASE_LABELS: Record<string, string> = {
   FINAL: "Final",
 };
 
+// Los pronósticos se cierran N minutos antes del inicio del partido
+export const PREDICTION_LOCK_MINUTES = 5;
+
 // Sistema de puntuación (ver LINEAMIENTOS.md)
 export const POINTS = {
   EXACT: 5, // marcador exacto

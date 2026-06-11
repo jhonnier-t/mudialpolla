@@ -4,6 +4,38 @@
   color-scheme: light;
 }
 
+/*
+ * Modo oscuro: en Tailwind v4 las utilidades usan variables CSS del tema
+ * (ej. bg-white → var(--color-white)). Redefinir esas variables bajo .dark
+ * invierte la paleta de toda la app sin tocar cada componente.
+ */
+.dark {
+  color-scheme: dark;
+  --color-white: #1e293b; /* superficies: cards, inputs, header */
+  --color-slate-50: #334155; /* hover de superficies */
+  --color-slate-100: #0f172a; /* fondo de página, badges neutros */
+  --color-slate-200: #334155; /* bordes */
+  --color-slate-300: #475569; /* bordes de inputs */
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #94a3b8; /* texto secundario */
+  --color-slate-600: #cbd5e1;
+  --color-slate-700: #e2e8f0; /* texto de botones secundarios */
+  --color-slate-900: #f1f5f9; /* texto principal */
+  --color-emerald-50: #022c22;
+  --color-emerald-100: #064e3b;
+  --color-emerald-200: #065f46; /* anillo de foco */
+  --color-emerald-300: #047857;
+  --color-emerald-700: #34d399; /* enlaces y textos verdes */
+  --color-amber-100: #451a03;
+  --color-amber-700: #fbbf24;
+  --color-red-50: #450a0a;
+  --color-red-100: #7f1d1d;
+  --color-red-600: #f87171;
+  --color-red-700: #fca5a5;
+  --color-purple-100: #3b0764;
+  --color-purple-700: #d8b4fe;
+}
+
 body {
   @apply bg-slate-100 text-slate-900 antialiased;
 }
@@ -14,7 +46,13 @@ body {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  /* colores fijos: el botón primario se ve igual en claro y oscuro */
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #047857;
 }
 
 .btn-secondary {

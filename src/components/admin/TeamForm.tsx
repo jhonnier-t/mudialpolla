@@ -18,7 +18,7 @@ export function TeamForm() {
       </div>
       <div>
         <label className="mb-1 block text-sm font-medium">Bandera (emoji)</label>
-        <input name="flag" className="input" placeholder="🇨🇴" />
+        <input name="flag" className="input" placeholder="Automática por código" />
       </div>
       <div>
         <label className="mb-1 block text-sm font-medium">Grupo</label>

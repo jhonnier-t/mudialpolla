@@ -7,23 +7,24 @@ en `LINEAMIENTOS.md` — el código debe mantenerse consistente con ese document
 ## Stack
 
 Next.js 15 (App Router, server actions) · React 19 · TypeScript estricto ·
-Prisma 6 + SQLite · Tailwind CSS 4 · Sesiones JWT en cookie (`jose` + `bcryptjs`).
+Prisma 6 + PostgreSQL (Neon; despliegue en Vercel) · Tailwind CSS 4 ·
+Sesiones JWT en cookie (`jose` + `bcryptjs`).
 
 ## Comandos
 
 ```bash
-npm run dev        # desarrollo (http://localhost:3000)
-npm run build      # build de producción (úsalo para verificar tipos)
-npm run db:push    # sincronizar schema.prisma con la BD SQLite
+npm run dev        # desarrollo (http://localhost:3000) — requiere DATABASE_URL válida
+npm run build      # prisma generate + build de producción (úsalo para verificar tipos)
+npm run db:push    # sincronizar schema.prisma con la BD (Neon)
 npm run db:seed    # datos demo (admin/admin123, juan y maria/polla2026)
 npm run db:studio  # inspeccionar la BD
 ```
 
 ## Arquitectura
 
-- `prisma/schema.prisma` — modelos User, Team, Match, Prediction. SQLite no
-  soporta enums: los campos `role`, `phase` y `status` son String con valores
-  controlados en `src/lib/constants.ts`. Usa siempre esas constantes.
+- `prisma/schema.prisma` — modelos User, Team, Match, Prediction sobre
+  PostgreSQL (Neon). Los campos `role`, `phase` y `status` son String con
+  valores controlados en `src/lib/constants.ts`. Usa siempre esas constantes.
 - `src/lib/auth.ts` — sesión JWT en cookie httpOnly (`polla_session`).
   `getSession()` está cacheado por request.
 - `src/lib/scoring.ts` — cálculo de puntos y tabla de posiciones. Los puntos
@@ -36,8 +37,9 @@ npm run db:studio  # inspeccionar la BD
 
 ## Reglas de negocio clave (no romper)
 
-- Un pronóstico solo se puede crear/editar si `match.kickoff > now` y el
-  partido no está FINISHED (validado en `savePrediction`).
+- Un pronóstico solo se puede crear/editar hasta `PREDICTION_LOCK_MINUTES`
+  (5) minutos antes de `match.kickoff` y si el partido no está FINISHED
+  (helper `isPredictionOpen` en scoring.ts, validado en `savePrediction`).
 - Marcador exacto = 5 pts, resultado acertado = 3 pts (constante `POINTS`).
 - Desempate de la tabla: puntos → marcadores exactos → nombre.
 - Usuarios inactivos no aparecen en la tabla de posiciones.

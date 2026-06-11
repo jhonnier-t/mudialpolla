@@ -1,6 +1,16 @@
-import { POINTS } from "./constants";
+import { POINTS, PREDICTION_LOCK_MINUTES } from "./constants";
 
 type Score = { a: number; b: number };
+
+/** Fecha límite para registrar/editar el pronóstico de un partido. */
+export function predictionDeadline(kickoff: Date): Date {
+  return new Date(kickoff.getTime() - PREDICTION_LOCK_MINUTES * 60_000);
+}
+
+/** ¿Todavía se puede pronosticar este partido? */
+export function isPredictionOpen(kickoff: Date, now = new Date()): boolean {
+  return now < predictionDeadline(kickoff);
+}
 
 /** Puntos de un pronóstico frente al resultado real (ver LINEAMIENTOS.md). */
 export function pointsFor(pred: Score, result: Score): number {

@@ -1,13 +1,14 @@
 // Polla Mundialista — esquema de datos
-// SQLite no soporta enums nativos en Prisma, por eso los campos de
-// rol/fase/estado son String con valores controlados desde src/lib/constants.ts
+// Base de datos: PostgreSQL (Neon en producción/Vercel).
+// Los campos de rol/fase/estado son String con valores controlados desde
+// src/lib/constants.ts (mantiene el esquema portable entre motores).
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

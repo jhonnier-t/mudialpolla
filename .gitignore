@@ -8,14 +8,18 @@
 # production
 /build
 
+# vercel
+.vercel
+
 # misc
 .DS_Store
 *.pem
 
 # debug
 npm-debug.log*
+pnpm-debug.log*
 
-# env files
+# env files (las variables van en Vercel → Environment Variables)
 .env*
 !.env.example
 
@@ -23,6 +27,6 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# prisma / sqlite
-prisma/dev.db
-prisma/dev.db-journal
+# prisma / sqlite local (legado)
+prisma/*.db
+prisma/*.db-journal

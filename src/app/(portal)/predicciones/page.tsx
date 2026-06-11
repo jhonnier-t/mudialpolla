@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { fmtKickoff } from "@/lib/format";
-import { pointsFor } from "@/lib/scoring";
-import { MATCH_STATUS, PHASE_LABELS } from "@/lib/constants";
+import { isPredictionOpen, pointsFor } from "@/lib/scoring";
+import { MATCH_STATUS, PHASE_LABELS, PREDICTION_LOCK_MINUTES } from "@/lib/constants";
 import { PredictionForm } from "@/components/PredictionForm";
 
 export default async function PrediccionesPage() {
@@ -18,15 +18,20 @@ export default async function PrediccionesPage() {
     orderBy: { kickoff: "asc" },
   });
 
-  const open = matches.filter((m) => m.status === MATCH_STATUS.SCHEDULED && m.kickoff > now);
-  const closed = matches.filter((m) => m.status === MATCH_STATUS.FINISHED || m.kickoff <= now);
+  const open = matches.filter(
+    (m) => m.status === MATCH_STATUS.SCHEDULED && isPredictionOpen(m.kickoff, now)
+  );
+  const closed = matches.filter(
+    (m) => m.status === MATCH_STATUS.FINISHED || !isPredictionOpen(m.kickoff, now)
+  );
 
   return (
     <div className="space-y-8">
       <section>
         <h1 className="mb-1 text-2xl font-bold">Mis predicciones</h1>
         <p className="mb-4 text-sm text-slate-500">
-          Puedes registrar o cambiar tu pronóstico hasta el inicio de cada partido.
+          Puedes registrar o cambiar tu pronóstico hasta {PREDICTION_LOCK_MINUTES} minutos
+          antes del inicio de cada partido.
         </p>
 
         {open.length === 0 ? (

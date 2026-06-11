@@ -15,9 +15,10 @@ contemplada aquí la resuelve el administrador y su decisión es definitiva.
 
 - Cada participante pronostica el **marcador exacto** de cada partido
   (goles del equipo local y del visitante).
-- Los pronósticos se pueden registrar y **modificar libremente hasta la hora de
-  inicio del partido**. Al iniciar el partido, el pronóstico queda bloqueado
-  automáticamente por el sistema.
+- Los pronósticos se pueden registrar y **modificar libremente hasta 5 minutos
+  antes de la hora de inicio del partido**. A partir de ese momento el
+  pronóstico queda bloqueado automáticamente por el sistema y no se puede
+  crear ni editar.
 - Un partido sin pronóstico registrado otorga **0 puntos** (no hay pronóstico
   por defecto).
 - En fases eliminatorias, el pronóstico aplica sobre el **resultado en los 90

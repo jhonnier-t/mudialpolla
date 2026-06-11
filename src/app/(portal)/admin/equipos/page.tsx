@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { deleteTeam } from "@/lib/actions/admin";
+import { deleteTeam, updateTeam } from "@/lib/actions/admin";
 import { TeamForm } from "@/components/admin/TeamForm";
 
 export default async function AdminEquiposPage() {
@@ -21,7 +21,7 @@ export default async function AdminEquiposPage() {
             <tr className="border-b border-slate-200 text-left text-xs uppercase text-slate-500">
               <th className="px-4 py-3">Equipo</th>
               <th className="px-4 py-3">Código</th>
-              <th className="px-4 py-3">Grupo</th>
+              <th className="px-4 py-3">Bandera y grupo</th>
               <th className="px-4 py-3 text-center">Partidos</th>
               <th className="px-4 py-3 text-right">Acciones</th>
             </tr>
@@ -35,7 +35,28 @@ export default async function AdminEquiposPage() {
                     {t.flag} {t.name}
                   </td>
                   <td className="px-4 py-3">{t.code}</td>
-                  <td className="px-4 py-3">{t.groupName ?? "—"}</td>
+                  <td className="px-4 py-3">
+                    <form action={updateTeam} className="flex items-center gap-2">
+                      <input type="hidden" name="id" value={t.id} />
+                      <input
+                        name="flag"
+                        defaultValue={t.flag}
+                        className="input w-14 text-center"
+                        aria-label="Bandera"
+                      />
+                      <input
+                        name="groupName"
+                        defaultValue={t.groupName ?? ""}
+                        className="input w-12 text-center uppercase"
+                        maxLength={1}
+                        placeholder="—"
+                        aria-label="Grupo"
+                      />
+                      <button type="submit" className="btn-secondary px-3 py-1.5">
+                        Guardar
+                      </button>
+                    </form>
+                  </td>
                   <td className="px-4 py-3 text-center">{matchCount}</td>
                   <td className="px-4 py-3 text-right">
                     {matchCount === 0 ? (
