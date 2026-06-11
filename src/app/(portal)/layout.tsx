@@ -28,6 +28,9 @@ export default async function PortalLayout({ children }: { children: React.React
                 Mis predicciones
               </Link>
             )}
+            <Link href="/grupos" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
+              Grupos
+            </Link>
             <Link href="/posiciones" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
               Posiciones
             </Link>
