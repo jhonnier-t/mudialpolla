@@ -25,6 +25,8 @@ npm run db:studio  # inspeccionar la BD
 - `prisma/schema.prisma` — modelos User, Team, Match, Prediction sobre
   PostgreSQL (Neon). Los campos `role`, `phase` y `status` son String con
   valores controlados en `src/lib/constants.ts`. Usa siempre esas constantes.
+- `prisma.config.ts` — configuración del CLI de Prisma (schema y seed). Con
+  este archivo, el CLI no carga `.env` solo: lo hace el `import "dotenv/config"`.
 - `src/lib/auth.ts` — sesión JWT en cookie httpOnly (`polla_session`).
   `getSession()` está cacheado por request.
 - `src/lib/scoring.ts` — cálculo de puntos y tabla de posiciones. Los puntos
