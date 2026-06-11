@@ -17,13 +17,12 @@ export function TeamForm() {
         <input name="code" className="input uppercase" placeholder="COL" maxLength={3} required />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Bandera (emoji)</label>
-        <input name="flag" className="input" placeholder="Automática por código" />
-      </div>
-      <div>
         <label className="mb-1 block text-sm font-medium">Grupo</label>
         <input name="groupName" className="input" placeholder="K" maxLength={1} />
       </div>
+      <p className="self-end pb-2 text-xs text-slate-500 sm:col-span-2 lg:col-span-1">
+        La bandera se asigna automáticamente según el código FIFA.
+      </p>
       <div className="flex items-center gap-3 sm:col-span-2 lg:col-span-4">
         <button type="submit" className="btn-primary" disabled={pending}>
           {pending ? "Creando…" : "Agregar equipo"}

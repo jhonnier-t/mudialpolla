@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
 import { requireSession } from "@/lib/auth";
 import { buildLeaderboard } from "@/lib/scoring";
-import { MATCH_STATUS } from "@/lib/constants";
+import { MATCH_STATUS, ROLES } from "@/lib/constants";
 
 export default async function PosicionesPage() {
   const session = await requireSession();
@@ -17,7 +17,13 @@ export default async function PosicionesPage() {
 
   const rows = buildLeaderboard(
     preds
-      .filter((p) => p.match.scoreA !== null && p.match.scoreB !== null && p.user.active)
+      .filter(
+        (p) =>
+          p.match.scoreA !== null &&
+          p.match.scoreB !== null &&
+          p.user.active &&
+          p.user.role === ROLES.PLAYER
+      )
       .map((p) => ({
         userId: p.userId,
         userName: p.user.name,
@@ -55,24 +61,46 @@ export default async function PosicionesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {rows.map((row, i) => (
-                <tr
-                  key={row.userId}
-                  className={row.userId === session.userId ? "bg-emerald-50/60" : undefined}
-                >
-                  <td className="px-4 py-3 font-semibold text-slate-400">
-                    {i === 0 ? "🏆" : i + 1}
-                  </td>
-                  <td className="px-4 py-3 font-medium">
-                    {row.name}
-                    <span className="ml-2 text-xs text-slate-400">@{row.username}</span>
-                  </td>
-                  <td className="px-4 py-3 text-center">{row.exactHits}</td>
-                  <td className="px-4 py-3 text-center">{row.outcomeHits}</td>
-                  <td className="px-4 py-3 text-center">{row.predictionsCount}</td>
-                  <td className="px-4 py-3 text-right text-base font-bold">{row.points}</td>
-                </tr>
-              ))}
+              {rows.map((row, i) => {
+                const medals = ["🥇", "🥈", "🥉"];
+                const podium = [
+                  "bg-amber-100/50",
+                  "bg-slate-100/70",
+                  "bg-orange-100/40",
+                ];
+                const isMe = row.userId === session.userId;
+                return (
+                  <tr
+                    key={row.userId}
+                    className={isMe ? "bg-emerald-50/60" : (podium[i] ?? undefined)}
+                  >
+                    <td className="px-4 py-3 text-base font-semibold text-slate-400">
+                      {medals[i] ?? i + 1}
+                    </td>
+                    <td className="px-4 py-3 font-medium">
+                      {row.name}
+                      {isMe && (
+                        <span className="badge ml-2 bg-emerald-100 text-emerald-700">tú</span>
+                      )}
+                      <span className="ml-2 text-xs text-slate-400">@{row.username}</span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="badge bg-emerald-100 text-emerald-700">
+                        {row.exactHits}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="badge bg-amber-100 text-amber-700">
+                        {row.outcomeHits}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center text-slate-500">
+                      {row.predictionsCount}
+                    </td>
+                    <td className="px-4 py-3 text-right text-base font-bold">{row.points}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

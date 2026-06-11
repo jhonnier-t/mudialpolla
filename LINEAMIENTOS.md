@@ -8,6 +8,8 @@ contemplada aquí la resuelve el administrador y su decisión es definitiva.
 - Cada participante recibe un usuario y contraseña creados por el administrador.
 - La cuenta es personal e intransferible: los pronósticos registrados con un
   usuario pertenecen a ese participante.
+- **El administrador no participa en la polla**: no registra pronósticos
+  propios ni aparece en la tabla de posiciones (el sistema lo impide).
 - El administrador puede desactivar cuentas (por ejemplo, por no pago de la
   inscripción). Los participantes inactivos no aparecen en la tabla de posiciones.
 
@@ -71,9 +73,14 @@ El administrador es responsable de:
   medida que se confirmen los cruces de eliminatorias).
 - Registrar el resultado de cada partido lo antes posible tras su finalización.
 - Crear las cuentas de los participantes y restablecer contraseñas.
-- Resolver disputas. Un administrador que también participa en la polla
-  **no puede editar pronósticos de nadie** (el sistema no lo permite: los
-  pronósticos solo los registra cada usuario desde su propia cuenta).
+- Resolver disputas.
+- **Registrar o corregir pronósticos de los participantes** cuando haya un
+  error u omisión operativa (por ejemplo, partidos jugados antes de la puesta
+  en marcha de la polla, o un marcador digitado al revés). Condiciones:
+  - Solo procede a solicitud del participante o por acuerdo del grupo.
+  - **Toda corrección debe informarse al grupo** (transparencia ante todo).
+  - No se corrigen pronósticos de un partido ya iniciado para "mejorar" un
+    resultado: la corrección es para subsanar errores, no para ganar ventaja.
 
 ## 7. Inscripción y premios (a definir por el grupo)
 

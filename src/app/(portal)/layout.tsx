@@ -20,9 +20,11 @@ export default async function PortalLayout({ children }: { children: React.React
             <Link href="/" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
               Inicio
             </Link>
-            <Link href="/predicciones" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
-              Mis predicciones
-            </Link>
+            {session.role !== ROLES.ADMIN && (
+              <Link href="/predicciones" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
+                Mis predicciones
+              </Link>
+            )}
             <Link href="/posiciones" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
               Posiciones
             </Link>

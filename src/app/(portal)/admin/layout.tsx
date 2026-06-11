@@ -14,6 +14,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <Link href="/admin/partidos" className="btn-secondary px-3 py-1.5">
           Partidos y resultados
         </Link>
+        <Link href="/admin/pronosticos" className="btn-secondary px-3 py-1.5">
+          Pronósticos
+        </Link>
         <Link href="/admin/equipos" className="btn-secondary px-3 py-1.5">
           Equipos
         </Link>

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { deleteTeam, updateTeam } from "@/lib/actions/admin";
 import { TeamForm } from "@/components/admin/TeamForm";
+import { TeamFlag } from "@/components/TeamFlag";
 
 export default async function AdminEquiposPage() {
   const teams = await prisma.team.findMany({
@@ -21,7 +22,7 @@ export default async function AdminEquiposPage() {
             <tr className="border-b border-slate-200 text-left text-xs uppercase text-slate-500">
               <th className="px-4 py-3">Equipo</th>
               <th className="px-4 py-3">Código</th>
-              <th className="px-4 py-3">Bandera y grupo</th>
+              <th className="px-4 py-3">Grupo</th>
               <th className="px-4 py-3 text-center">Partidos</th>
               <th className="px-4 py-3 text-right">Acciones</th>
             </tr>
@@ -31,19 +32,16 @@ export default async function AdminEquiposPage() {
               const matchCount = t._count.matchesA + t._count.matchesB;
               return (
                 <tr key={t.id}>
-                  <td className="px-4 py-3 font-medium">
-                    {t.flag} {t.name}
+                  <td className="px-4 py-3">
+                    <span className="flex items-center gap-2 font-medium">
+                      <TeamFlag code={t.code} fallback={t.flag} size="md" />
+                      {t.name}
+                    </span>
                   </td>
                   <td className="px-4 py-3">{t.code}</td>
                   <td className="px-4 py-3">
                     <form action={updateTeam} className="flex items-center gap-2">
                       <input type="hidden" name="id" value={t.id} />
-                      <input
-                        name="flag"
-                        defaultValue={t.flag}
-                        className="input w-14 text-center"
-                        aria-label="Bandera"
-                      />
                       <input
                         name="groupName"
                         defaultValue={t.groupName ?? ""}

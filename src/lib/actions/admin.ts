@@ -139,6 +139,51 @@ export async function deleteMatch(formData: FormData) {
   revalidateAll();
 }
 
+// ---------- Pronósticos de jugadores (corrección por el admin) ----------
+
+/**
+ * Registra o corrige el pronóstico de UN JUGADOR para un partido.
+ * Sin restricción de hora: existe justamente para subsanar errores u
+ * omisiones (p. ej. partidos jugados antes de poner en marcha la polla).
+ * Ver LINEAMIENTOS.md §6: toda corrección debe informarse al grupo.
+ */
+export async function setUserPrediction(_prev: AdminState, formData: FormData): Promise<AdminState> {
+  await requireAdmin();
+  const userId = String(formData.get("userId") ?? "");
+  const matchId = String(formData.get("matchId") ?? "");
+  const predA = Number(formData.get("predA"));
+  const predB = Number(formData.get("predB"));
+
+  if (!Number.isInteger(predA) || !Number.isInteger(predB) || predA < 0 || predB < 0 || predA > 20 || predB > 20) {
+    return { error: "Marcador inválido (enteros entre 0 y 20)." };
+  }
+  const [user, match] = await Promise.all([
+    prisma.user.findUnique({ where: { id: userId } }),
+    prisma.match.findUnique({ where: { id: matchId } }),
+  ]);
+  if (!user || user.role !== ROLES.PLAYER) return { error: "El usuario no es un participante." };
+  if (!match) return { error: "El partido no existe." };
+
+  await prisma.prediction.upsert({
+    where: { userId_matchId: { userId, matchId } },
+    update: { predA, predB },
+    create: { userId, matchId, predA, predB },
+  });
+  revalidateAll();
+  revalidatePath("/admin/pronosticos");
+  return { ok: true };
+}
+
+/** Elimina el pronóstico de un jugador para un partido. */
+export async function deleteUserPrediction(formData: FormData) {
+  await requireAdmin();
+  const userId = String(formData.get("userId") ?? "");
+  const matchId = String(formData.get("matchId") ?? "");
+  await prisma.prediction.deleteMany({ where: { userId, matchId } });
+  revalidateAll();
+  revalidatePath("/admin/pronosticos");
+}
+
 // ---------- Usuarios ----------
 
 export async function createUser(_prev: AdminState, formData: FormData): Promise<AdminState> {

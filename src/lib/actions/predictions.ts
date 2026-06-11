@@ -19,6 +19,9 @@ export async function savePrediction(
 ): Promise<PredictionState> {
   const session = await getSession();
   if (!session) return { error: "Sesión expirada. Inicia sesión de nuevo." };
+  if (session.role === "ADMIN") {
+    return { error: "El administrador no participa en la polla." };
+  }
 
   const matchId = String(formData.get("matchId") ?? "");
   const predA = Number(formData.get("predA"));

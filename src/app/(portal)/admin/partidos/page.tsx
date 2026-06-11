@@ -4,6 +4,7 @@ import { MATCH_STATUS, PHASE_LABELS } from "@/lib/constants";
 import { deleteMatch, reopenMatch } from "@/lib/actions/admin";
 import { MatchForm } from "@/components/admin/MatchForm";
 import { ResultForm } from "@/components/admin/ResultForm";
+import { TeamFlag } from "@/components/TeamFlag";
 
 export default async function AdminPartidosPage() {
   const [teams, matches] = await Promise.all([
@@ -38,14 +39,26 @@ export default async function AdminPartidosPage() {
           <div className="card text-sm text-slate-500">No hay partidos pendientes.</div>
         ) : (
           <div className="space-y-3">
-            {pending.map((m) => (
+            {pending.map((m) => {
+              const inPlay = m.kickoff <= new Date();
+              return (
               <div key={m.id} className="card flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <div className="font-medium">
-                    {m.teamA.flag} {m.teamA.name} <span className="text-slate-400">vs</span>{" "}
-                    {m.teamB.flag} {m.teamB.name}
+                  <div className="flex items-center gap-2 font-medium">
+                    <TeamFlag code={m.teamA.code} fallback={m.teamA.flag} />
+                    {m.teamA.name}
+                    <span className="text-xs text-slate-400">vs</span>
+                    <TeamFlag code={m.teamB.code} fallback={m.teamB.flag} />
+                    {m.teamB.name}
+                    {inPlay ? (
+                      <span className="badge animate-pulse bg-amber-100 text-amber-700">
+                        ● En juego
+                      </span>
+                    ) : (
+                      <span className="badge bg-blue-100 text-blue-700">Programado</span>
+                    )}
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="mt-1 text-xs text-slate-500">
                     {PHASE_LABELS[m.phase]}
                     {m.groupName ? ` · Grupo ${m.groupName}` : ""} · {fmtKickoff(m.kickoff)}
                     {m.stadium ? ` · ${m.stadium}` : ""} · {m._count.predictions} pronóstico
@@ -62,7 +75,8 @@ export default async function AdminPartidosPage() {
                   </form>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
@@ -74,16 +88,18 @@ export default async function AdminPartidosPage() {
         ) : (
           <div className="space-y-3">
             {finished.map((m) => (
-              <div key={m.id} className="card flex flex-wrap items-center justify-between gap-4">
+              <div key={m.id} className="card flex flex-wrap items-center justify-between gap-4 border-l-4 border-l-emerald-500">
                 <div>
-                  <div className="font-medium">
-                    {m.teamA.flag} {m.teamA.name}{" "}
-                    <span className="mx-1 rounded bg-slate-900 px-2 py-0.5 font-bold text-white">
+                  <div className="flex items-center gap-2 font-medium">
+                    <TeamFlag code={m.teamA.code} fallback={m.teamA.flag} />
+                    {m.teamA.name}
+                    <span className="badge bg-emerald-100 font-bold text-emerald-700">
                       {m.scoreA} - {m.scoreB}
-                    </span>{" "}
-                    {m.teamB.flag} {m.teamB.name}
+                    </span>
+                    <TeamFlag code={m.teamB.code} fallback={m.teamB.flag} />
+                    {m.teamB.name}
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="mt-1 text-xs text-slate-500">
                     {PHASE_LABELS[m.phase]}
                     {m.groupName ? ` · Grupo ${m.groupName}` : ""} · {fmtKickoff(m.kickoff)}
                   </div>

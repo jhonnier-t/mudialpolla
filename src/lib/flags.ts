@@ -1,6 +1,8 @@
 /**
- * Banderas (emoji) por código FIFA. Se usa para autocompletar la bandera al
- * crear un equipo y en el seed. Incluye selecciones clasificadas y habituales.
+ * Banderas por código FIFA.
+ * - FLAG_BY_CODE: emoji (fallback y autocompletado en formularios/selects).
+ * - ISO2_BY_CODE: código ISO 3166-1 alpha-2 usado por flagcdn.com para
+ *   renderizar la IMAGEN real de la bandera (componente TeamFlag).
  */
 export const FLAG_BY_CODE: Record<string, string> = {
   // Anfitriones 2026
@@ -82,4 +84,23 @@ export const FLAG_BY_CODE: Record<string, string> = {
   JAM: "🇯🇲",
   // OFC
   NZL: "🇳🇿",
+};
+
+// Código ISO 3166-1 alpha-2 (formato de flagcdn.com) por código FIFA
+export const ISO2_BY_CODE: Record<string, string> = {
+  MEX: "mx", USA: "us", CAN: "ca",
+  ARG: "ar", BRA: "br", COL: "co", ECU: "ec", URU: "uy", PAR: "py",
+  BOL: "bo", CHI: "cl", PER: "pe", VEN: "ve",
+  ENG: "gb-eng", SCO: "gb-sct", WAL: "gb-wls",
+  FRA: "fr", GER: "de", ESP: "es", POR: "pt", NED: "nl", BEL: "be",
+  CRO: "hr", BIH: "ba", SUI: "ch", AUT: "at", NOR: "no", ITA: "it",
+  DEN: "dk", SWE: "se", POL: "pl", UKR: "ua", TUR: "tr", CZE: "cz",
+  SRB: "rs", GRE: "gr", HUN: "hu", ROU: "ro", SVK: "sk", SVN: "si",
+  IRL: "ie", ALB: "al", ISL: "is",
+  JPN: "jp", KOR: "kr", IRN: "ir", AUS: "au", JOR: "jo", UZB: "uz",
+  QAT: "qa", KSA: "sa", IRQ: "iq", UAE: "ae",
+  MAR: "ma", TUN: "tn", ALG: "dz", EGY: "eg", GHA: "gh", SEN: "sn",
+  CIV: "ci", CPV: "cv", RSA: "za", NGA: "ng", CMR: "cm", COD: "cd",
+  PAN: "pa", CUW: "cw", HAI: "ht", CRC: "cr", HON: "hn", JAM: "jm",
+  NZL: "nz",
 };

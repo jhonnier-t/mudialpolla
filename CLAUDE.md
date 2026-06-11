@@ -44,8 +44,15 @@ npm run db:studio  # inspeccionar la BD
   (helper `isPredictionOpen` en scoring.ts, validado en `savePrediction`).
 - Marcador exacto = 5 pts, resultado acertado = 3 pts (constante `POINTS`).
 - Desempate de la tabla: puntos → marcadores exactos → nombre.
-- Usuarios inactivos no aparecen en la tabla de posiciones.
-- Nadie edita pronósticos ajenos, ni siquiera el admin.
+- Usuarios inactivos y usuarios con rol ADMIN no aparecen en la tabla de
+  posiciones; el admin no puede registrar pronósticos propios.
+- Los participantes no editan pronósticos ajenos. El admin sí puede
+  registrar/corregir pronósticos de jugadores vía `setUserPrediction`
+  (/admin/pronosticos, sin restricción de hora) — existe para subsanar
+  errores u omisiones y debe informarse al grupo (LINEAMIENTOS §6).
+- Las banderas se renderizan como imagen (flagcdn.com) con el componente
+  `TeamFlag` y el mapa `ISO2_BY_CODE` de `src/lib/flags.ts`; el emoji de
+  `Team.flag` es solo fallback.
 
 ## Convenciones
 
