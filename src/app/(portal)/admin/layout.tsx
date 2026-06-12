@@ -9,20 +9,22 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
-        <h1 className="mr-4 text-xl font-bold">Administración</h1>
-        <Link href="/admin/partidos" className="btn-secondary px-3 py-1.5">
-          Partidos y resultados
-        </Link>
-        <Link href="/admin/pronosticos" className="btn-secondary px-3 py-1.5">
-          Pronósticos
-        </Link>
-        <Link href="/admin/equipos" className="btn-secondary px-3 py-1.5">
-          Equipos
-        </Link>
-        <Link href="/admin/usuarios" className="btn-secondary px-3 py-1.5">
-          Participantes
-        </Link>
+      <div className="border-b border-slate-200 pb-4">
+        <h1 className="mb-3 text-xl font-bold">Administración</h1>
+        <div className="no-scrollbar -mx-1 flex items-center gap-2 overflow-x-auto whitespace-nowrap px-1 pb-1 sm:flex-wrap sm:overflow-visible sm:whitespace-normal">
+          <Link href="/admin/partidos" className="btn-secondary shrink-0 px-3 py-1.5">
+            Partidos y resultados
+          </Link>
+          <Link href="/admin/pronosticos" className="btn-secondary shrink-0 px-3 py-1.5">
+            Pronósticos
+          </Link>
+          <Link href="/admin/equipos" className="btn-secondary shrink-0 px-3 py-1.5">
+            Equipos
+          </Link>
+          <Link href="/admin/usuarios" className="btn-secondary shrink-0 px-3 py-1.5">
+            Participantes
+          </Link>
+        </div>
       </div>
       {children}
     </div>

@@ -56,7 +56,7 @@ export default async function PosicionesPage() {
                 <th className="px-4 py-3">Participante</th>
                 <th className="px-4 py-3 text-center">Exactos</th>
                 <th className="px-4 py-3 text-center">Resultados</th>
-                <th className="px-4 py-3 text-center">Pronósticos</th>
+                <th className="hidden px-4 py-3 text-center sm:table-cell">Pronósticos</th>
                 <th className="px-4 py-3 text-right">Puntos</th>
               </tr>
             </thead>
@@ -94,7 +94,7 @@ export default async function PosicionesPage() {
                         {row.outcomeHits}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-center text-slate-500">
+                    <td className="hidden px-4 py-3 text-center text-slate-500 sm:table-cell">
                       {row.predictionsCount}
                     </td>
                     <td className="px-4 py-3 text-right text-base font-bold">{row.points}</td>

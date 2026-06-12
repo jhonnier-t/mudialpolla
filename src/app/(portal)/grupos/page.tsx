@@ -104,9 +104,9 @@ export default async function GruposPage({ searchParams }: Props) {
                 <tr className="text-center text-[11px] uppercase text-slate-400">
                   <th className="py-1.5 pl-4 text-left font-medium">Equipo</th>
                   <th className="w-8 font-medium" title="Partidos jugados">PJ</th>
-                  <th className="w-8 font-medium" title="Ganados">G</th>
-                  <th className="w-8 font-medium" title="Empatados">E</th>
-                  <th className="w-8 font-medium" title="Perdidos">P</th>
+                  <th className="hidden w-8 font-medium sm:table-cell" title="Ganados">G</th>
+                  <th className="hidden w-8 font-medium sm:table-cell" title="Empatados">E</th>
+                  <th className="hidden w-8 font-medium sm:table-cell" title="Perdidos">P</th>
                   <th className="w-10 font-medium" title="Diferencia de gol">DG</th>
                   <th className="w-10 pr-4 font-medium" title="Puntos">Pts</th>
                 </tr>
@@ -114,8 +114,8 @@ export default async function GruposPage({ searchParams }: Props) {
               <tbody className="divide-y divide-slate-100">
                 {rows.map((row, i) => (
                   <tr key={row.teamId} className="text-center">
-                    <td className="py-2 pl-4 text-left">
-                      <span className="flex items-center gap-2">
+                    <td className="max-w-0 py-2 pl-4 text-left">
+                      <span className="flex min-w-0 items-center gap-2">
                         <span
                           className={`inline-block h-4 w-1 rounded-full ${
                             i < 2
@@ -131,9 +131,9 @@ export default async function GruposPage({ searchParams }: Props) {
                       </span>
                     </td>
                     <td className="text-slate-500">{row.played}</td>
-                    <td className="text-slate-500">{row.won}</td>
-                    <td className="text-slate-500">{row.drawn}</td>
-                    <td className="text-slate-500">{row.lost}</td>
+                    <td className="hidden text-slate-500 sm:table-cell">{row.won}</td>
+                    <td className="hidden text-slate-500 sm:table-cell">{row.drawn}</td>
+                    <td className="hidden text-slate-500 sm:table-cell">{row.lost}</td>
                     <td className={row.gd > 0 ? "text-emerald-600" : row.gd < 0 ? "text-red-500" : "text-slate-500"}>
                       {row.gd > 0 ? `+${row.gd}` : row.gd}
                     </td>

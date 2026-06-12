@@ -60,7 +60,7 @@ export default async function AdminPronosticosPage({ searchParams }: Props) {
       </section>
 
       {selected && (
-        <section className="card p-0">
+        <section className="card overflow-x-auto p-0">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
             <div className="font-medium">
               <TeamFlag code={selected.teamA.code} fallback={selected.teamA.flag} />{" "}

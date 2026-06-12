@@ -16,11 +16,11 @@ export default async function PortalLayout({ children }: { children: React.React
     <ToastProvider>
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-4 px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 text-lg font-bold">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-1 px-3 py-2.5 sm:px-4 sm:py-3">
+          <Link href="/" className="flex shrink-0 items-center gap-2 text-lg font-bold">
             ⚽ <span>Polla Mundialista</span>
           </Link>
-          <nav className="flex flex-1 items-center gap-1 text-sm font-medium">
+          <nav className="no-scrollbar order-last -mx-1 flex w-full items-center gap-1 overflow-x-auto whitespace-nowrap pb-1 text-sm font-medium sm:order-none sm:mx-0 sm:w-auto sm:flex-1 sm:pb-0">
             <Link href="/" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
               Inicio
             </Link>
@@ -44,8 +44,8 @@ export default async function PortalLayout({ children }: { children: React.React
               </Link>
             )}
           </nav>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="hidden text-slate-500 sm:inline">Hola, {session.name}</span>
+          <div className="ml-auto flex shrink-0 items-center gap-2 text-sm sm:ml-0 sm:gap-3">
+            <span className="hidden text-slate-500 md:inline">Hola, {session.name}</span>
             <ThemeToggle />
             <form action={logout}>
               <button type="submit" className="btn-secondary px-3 py-1.5">

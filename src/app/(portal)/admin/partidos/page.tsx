@@ -66,7 +66,7 @@ export default async function AdminPartidosPage() {
                     {m._count.predictions === 1 ? "" : "s"}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <ResultForm matchId={m.id} />
                   <form action={deleteMatch}>
                     <input type="hidden" name="id" value={m.id} />
@@ -103,7 +103,7 @@ export default async function AdminPartidosPage() {
                     {m.groupName ? ` · Grupo ${m.groupName}` : ""} · {fmtKickoff(m.kickoff)}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <ResultForm matchId={m.id} initialA={m.scoreA} initialB={m.scoreB} />
                   <form action={reopenMatch}>
                     <input type="hidden" name="id" value={m.id} />
