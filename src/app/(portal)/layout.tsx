@@ -43,9 +43,18 @@ export default async function PortalLayout({ children }: { children: React.React
                 Administración
               </Link>
             )}
+            <Link href="/cuenta" className="rounded-lg px-3 py-1.5 hover:bg-slate-100">
+              Mi cuenta
+            </Link>
           </nav>
           <div className="ml-auto flex shrink-0 items-center gap-2 text-sm sm:ml-0 sm:gap-3">
-            <span className="hidden text-slate-500 md:inline">Hola, {session.name}</span>
+            <Link
+              href="/cuenta"
+              className="hidden text-slate-500 hover:text-emerald-700 md:inline"
+              title="Mi cuenta"
+            >
+              Hola, {session.name}
+            </Link>
             <ThemeToggle />
             <form action={logout}>
               <button type="submit" className="btn-secondary px-3 py-1.5">
